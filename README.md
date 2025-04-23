@@ -2,7 +2,9 @@
 
 ## about me :
 Laila Novia Sari
+
 lailanovia2902@gmail.com
+
 Bachelor's Degree of Informatics Engineering - UNESA - 2025
 
 ## referensi :
