@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} Homepage | Showroom Mobil {% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+
+    <style>
+        tr.clickable-row:hover {
+            cursor: pointer;
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="">Showroom Mobil | </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="">Home</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container container-fluid content-align-center my-5">
+        <div class="row align-items-start">
+            <div class="col-6">
+                <h1>Daftar Mobil</h1>
+            </div>
+            <div class="col-6 text-end">
+                <a href="{% url 'tambah_mobil' %}" class="btn btn-primary my-3 align-right">Tambah Mobil</a>
+            </div>
+        </div>
+
+
+        {% if mobil %}
+        <table class="table table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th class="col-1">ID Mobil</th>
+                    <th class="col-4">Merk</th>
+                    <th class="col-3">Model</th>
+                    <th class="col-2">Tahun</th>
+                    <th class="col-2">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in mobil %}
+                <tr class="clickable-row" data-href="{% url 'detail_mobil' m.pk %}">
+                    <td>{{ m.id }}</td>
+                    <td>{{ m.merk }}</td>
+                    <td>{{ m.model }}</td>
+                    <td>{{ m.tahun }}</td>
+                    <td class="row">
+                        <div class="col">
+                            <a href="{% url 'edit_mobil' m.pk %}" class="btn btn-sm btn-warning">Edit Mobil</a>
+                        </div>
+                        <form class="col" method="post" action="{% url 'hapus_mobil' m.pk %}"
+                            onclick="return confirm('Yakin ingin menghapus data mobil ini?')">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger">Hapus Mobil</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+        {% else %}
+        <div class="alert alert-warning">Belum ada mobil di showroom.</div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <div class="container fixed-bottom">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="inner-content text-center">
+                        <p>Copyright © 2025 lailanoviasari</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- kode javascript here -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.clickable-row').forEach(function (row) {
+                row.addEventListener('click', function () {
+                    window.location = this.dataset.href;
+                });
+            });
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
